@@ -5,11 +5,11 @@ const BASE_URL = import.meta.env.VITE_NEWS_BASE_API_URL;
 const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
 const USE_MOCK = import.meta.env.VITE_NEWS_APP_USE_MOCK;
 
-type GetNewsParams = {
-  pageNumber: number;
-  pageSize: number;
-  category: string | null; // category обязательно должна быть строкой
-  keywords: string;
+export type GetNewsParams = {
+  pageNumber?: number;
+  pageSize?: number;
+  category?: string | null; // category обязательно должна быть строкой
+  keywords?: string;
 };
 
 export const getNews = async ({

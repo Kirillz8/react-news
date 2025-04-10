@@ -1,10 +1,11 @@
 import type { NewsResponse } from "../../pages/Main/Main.tsx";
+import { withSkeleton } from "../helpers/hocs/withSkeleton.tsx";
 import { NewsItem } from "../NewsItem/NewsItem.tsx";
 import s from "./NewsList.module.css";
 
-type newsProps = Pick<NewsResponse, "news">;
+type newsProps = Pick<NewsResponse, "news"> & { isLoading: boolean };
 
-export const NewsList = ({ news }: newsProps) => {
+const NewsList = ({ news }: newsProps) => {
   return (
     <ul className={s.list}>
       {news.map((item) => {
@@ -13,3 +14,7 @@ export const NewsList = ({ news }: newsProps) => {
     </ul>
   );
 };
+
+export const NewsListWithSkeleton = withSkeleton(NewsList, "item", 10);
+
+// export default NewsListWithSkeleton;
