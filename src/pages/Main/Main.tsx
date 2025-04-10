@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { getCategories, getNews } from "../../api/apiNews.ts";
 import { Categories } from "../../components/Categories/Categories.tsx";
+import { useDebounce } from "../../components/helpers/hooks/useDebounce.ts";
 import { NewsBanner } from "../../components/NewsBanner/NewsBanner.tsx";
 import { NewsList } from "../../components/NewsList/NewsList.tsx";
 import { Pagination } from "../../components/Pagination/Pagination.tsx";
+import { Search } from "../../components/Search/Search.tsx";
 import { Skeleton } from "../../components/Skeleton/Skeleton.tsx";
 import s from "./Main.module.css";
 
@@ -24,16 +26,20 @@ export type NewsResponse = {
   page: number;
   status: string;
   categories: string[];
+  keywords: string;
 };
 
 export const Main = () => {
   const [news, setNews] = useState<NewsType[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [keywords, setKeywords] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 5;
   const pageSize = 5;
+
+  const debouncedKeywords = useDebounce(keywords, 1500);
 
   const fetchNews = async (currentPage: number) => {
     try {
@@ -42,6 +48,7 @@ export const Main = () => {
         pageNumber: currentPage,
         pageSize: pageSize,
         category: selectedCategory === "All" ? null : selectedCategory,
+        keywords: debouncedKeywords,
       });
       setNews(response.news);
       setIsLoading(false);
@@ -65,7 +72,7 @@ export const Main = () => {
 
   useEffect(() => {
     fetchNews(currentPage);
-  }, [currentPage, selectedCategory]);
+  }, [fetchNews, currentPage, selectedCategory, debouncedKeywords]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -90,6 +97,8 @@ export const Main = () => {
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
       />
+
+      <Search keywords={keywords} setKeywords={setKeywords} />
 
       {news.length > 0 && !isLoading ? (
         <NewsBanner item={news[0]} />
