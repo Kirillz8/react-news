@@ -1,20 +1,12 @@
 import s from "./Pagination.module.css";
 
-type totalPagesProps = {
-  totalPages: number;
-  handleNextPage: () => void;
-  handlePreviousPage: () => void;
-  handlePageClick: (pageNumber: number) => void;
-  currentPage: number;
-};
-
 export const Pagination = ({
   totalPages,
   handlePreviousPage,
   handlePageClick,
   handleNextPage,
   currentPage,
-}: totalPagesProps) => {
+}) => {
   return (
     <div className={s.pagination}>
       <button
