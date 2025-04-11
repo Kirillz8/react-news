@@ -15,6 +15,11 @@ const NewsList = ({ news }: newsProps) => {
   );
 };
 
-export const NewsListWithSkeleton = withSkeleton(NewsList, "item", 10);
+export const NewsListWithSkeleton = withSkeleton(
+  NewsList,
+  "item",
+  10,
+  "column",
+);
 
-// export default NewsListWithSkeleton;
+export default NewsListWithSkeleton;
