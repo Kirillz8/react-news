@@ -1,25 +1,22 @@
-import type { NewsResponse } from "../../pages/Main/Main.tsx";
-import { withSkeleton } from "../helpers/hocs/withSkeleton.tsx";
+import { withSkeleton } from "../../helpers/hocs/withSkeleton.tsx";
+import type { INews } from "../../interfaces";
 import { NewsItem } from "../NewsItem/NewsItem.tsx";
 import s from "./NewsList.module.css";
 
-type newsProps = Pick<NewsResponse, "news"> & { isLoading: boolean };
+interface Props {
+  news?: INews[];
+}
 
-const NewsList = ({ news }: newsProps) => {
+const NewsList = ({ news }: Props) => {
   return (
     <ul className={s.list}>
-      {news.map((item) => {
+      {news?.map((item) => {
         return <NewsItem key={item.id} item={item} />;
       })}
     </ul>
   );
 };
 
-export const NewsListWithSkeleton = withSkeleton(
-  NewsList,
-  "item",
-  10,
-  "column",
-);
+export const NewsListWithSkeleton = withSkeleton<Props>(NewsList, "item", 10);
 
 export default NewsListWithSkeleton;

@@ -1,11 +1,11 @@
 import s from "./Search.module.css";
 
-type SearchKeywordsProps = {
+interface Props {
   keywords: string;
-  setKeywords: (event: string) => void;
-};
+  setKeywords: (keywords: string) => void;
+}
 
-export const Search = ({ keywords, setKeywords }: SearchKeywordsProps) => {
+export const Search = ({ keywords, setKeywords }: Props) => {
   return (
     <div className={s.search}>
       <input

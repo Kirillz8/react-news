@@ -1,4 +1,4 @@
-export const getMillisecondsUntilMidnight = (): number => {
+export const getMillisecondsUntilMidnight = () => {
   const now = new Date();
   const midnight = new Date(now);
   midnight.setHours(24, 0, 0, 0);
