@@ -1,13 +1,13 @@
-import { formatTimeAgo } from "../helpers/formatTimeAgo.ts";
-import type { NewsType } from "../../pages/Main/Main.tsx";
+import { formatTimeAgo } from "../../helpers/formatTimeAgo.ts";
+import type { INews } from "../../interfaces";
 import { Image } from "../Image/Image.tsx";
 import s from "./NewsBanner.module.css";
 
-export type ItemProps = {
-  item: NewsType;
-};
+interface Props {
+  item: INews;
+}
 
-const NewsBanner = ({ item }: ItemProps) => {
+const NewsBanner = ({ item }: Props) => {
   return (
     <div className={s.banner}>
       <Image image={item?.image} />

@@ -1,12 +1,12 @@
-import { formatTimeAgo } from "../helpers/formatTimeAgo.ts";
-import type { NewsType } from "../../pages/Main/Main.tsx";
+import { formatTimeAgo } from "../../helpers/formatTimeAgo.ts";
+import type { INews } from "../../interfaces";
 import s from "./NewsItem.module.css";
 
-export type ItemProps = {
-  item: NewsType;
-};
+interface Props {
+  item: INews;
+}
 
-export const NewsItem = ({ item }: ItemProps) => {
+export const NewsItem = ({ item }: Props) => {
   const publishedTime = formatTimeAgo(item.published);
   return (
     <li className={s.item} key={item.id}>
