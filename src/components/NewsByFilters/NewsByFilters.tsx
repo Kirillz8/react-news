@@ -1,9 +1,9 @@
-import { getNews, type GetNewsParams } from "../../api/apiNews.ts";
+import { getNews } from "../../api/apiNews.ts";
 import { PAGE_SIZE, TOTAL_PAGES } from "../../constants/constants.ts";
-import type { NewsResponse } from "../../pages/Main/Main.tsx";
-import { useDebounce } from "../helpers/hooks/useDebounce.ts";
-import { useFetch } from "../helpers/hooks/useFetch.ts";
-import { useFilters } from "../helpers/hooks/useFilters.ts";
+import { useDebounce } from "../../helpers/hooks/useDebounce.ts";
+import { useFetch } from "../../helpers/hooks/useFetch.ts";
+import { useFilters } from "../../helpers/hooks/useFilters.ts";
+import type { NewsApiResponse, ParamsType } from "../../interfaces";
 import { NewsFilters } from "../NewsFilters/NewsFilters.tsx";
 import NewsList from "../NewsList/NewsList.tsx";
 import { PaginationWrapper } from "../PaginationWrapper/PaginationWrapper.tsx";
@@ -19,14 +19,10 @@ export const NewsByFilters = () => {
 
   const debouncedKeywords = useDebounce(filters.keywords, 1500);
 
-  const { data, isLoading } = useFetch<NewsResponse, GetNewsParams>(
-    // @ts-ignore
-    getNews,
-    {
-      ...filters,
-      keywords: debouncedKeywords,
-    },
-  );
+  const { data, isLoading } = useFetch<NewsApiResponse, ParamsType>(getNews, {
+    ...filters,
+    keywords: debouncedKeywords,
+  });
 
   const handleNextPage = () => {
     if (filters.pageNumber < TOTAL_PAGES) {
