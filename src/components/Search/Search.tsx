@@ -1,3 +1,4 @@
+import { useTheme } from "../../context/ThemeContext.tsx";
 import s from "./Search.module.css";
 
 interface Props {
@@ -6,8 +7,9 @@ interface Props {
 }
 
 export const Search = ({ keywords, setKeywords }: Props) => {
+  const { isDark } = useTheme();
   return (
-    <div className={s.search}>
+    <div className={`${s.search} ${isDark ? s.dark : s.light}`}>
       <input
         className={s.input}
         type="text"
