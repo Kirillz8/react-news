@@ -9,9 +9,10 @@ interface SliderChildProps {
 interface Props {
   children: ReactElement<SliderChildProps>;
   step?: number;
+  isDark: boolean;
 }
 
-export const Slider = ({ children, step = 150 }: Props) => {
+export const Slider = ({ children, step = 150, isDark }: Props) => {
   const sliderRef = useRef<HTMLElement | null>(null);
 
   const scrollLeft = () => {
@@ -25,7 +26,7 @@ export const Slider = ({ children, step = 150 }: Props) => {
   };
 
   return (
-    <div className={s.slider}>
+    <div className={`${s.slider} ${isDark ? s.dark : s.light}`}>
       <button onClick={scrollLeft} className={s.arrow}>
         {"<"}
       </button>
