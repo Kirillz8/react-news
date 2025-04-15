@@ -1,32 +1,32 @@
-import { getCategories } from "../../api/apiNews.ts";
 import { useTheme } from "../../context/ThemeContext.tsx";
-import type { CategoriesApiResponse, IFilters } from "../../interfaces";
+import type { IFilters } from "../../interfaces";
+import { useAppDispatch } from "../../store";
+import { useGetCategoriesQuery } from "../../store/services/newsApi.ts";
+import { getFilters } from "../../store/slices/newsSlice.ts";
 import { Categories } from "../Categories/Categories.tsx";
-import { useFetch } from "../../helpers/hooks/useFetch.ts";
 import { Search } from "../Search/Search.tsx";
 import { Slider } from "../Slider/Slider.tsx";
 import s from "./NewsFilters.module.css";
 
 interface Props {
   filters: IFilters;
-  changeFilters: (key: string, value: string | number | null) => void;
 }
 
-export const NewsFilters = ({ filters, changeFilters }: Props) => {
+export const NewsFilters = ({ filters }: Props) => {
   const { isDark } = useTheme();
-  const { data: dataCategories } = useFetch<CategoriesApiResponse, null>(
-    getCategories,
-  );
+
+  const dispatch = useAppDispatch();
+  const { data } = useGetCategoriesQuery();
 
   return (
     <div className={s.filters}>
-      {dataCategories ? (
+      {data ? (
         <Slider isDark={isDark}>
           <Categories
-            categories={dataCategories.categories}
+            categories={data.categories}
             selectedCategory={filters.category}
             setSelectedCategory={(category) =>
-              changeFilters("category", category)
+              dispatch(getFilters({ key: "category", value: category }))
             }
           />
         </Slider>
@@ -34,7 +34,9 @@ export const NewsFilters = ({ filters, changeFilters }: Props) => {
 
       <Search
         keywords={filters.keywords}
-        setKeywords={(keywords) => changeFilters("keywords", keywords)}
+        setKeywords={(keywords) =>
+          dispatch(getFilters({ key: "keywords", value: keywords }))
+        }
       />
     </div>
   );
